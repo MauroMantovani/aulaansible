@@ -1,0 +1,9 @@
+---
+# tasks file for puppet
+
+- name: instalar repositorio do puppet
+  include: repo.yaml
+
+- name: instalar pacote
+  include: install.yaml
+

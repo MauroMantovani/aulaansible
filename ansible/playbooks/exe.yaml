@@ -1,0 +1,40 @@
+- name: exercicio
+  hosts: all
+  tasks:
+
+   - name: adicionando usuarios
+     user:
+      name: "{{item}}"
+      shell: /bin/bash
+     with_items:
+       - developer
+       - suporte
+       - mauro
+
+   - name: pacotes basicos
+     package:
+      name: "{{item.pacote}}"
+     when: ansible_os_family == item.distro
+     with_items:
+      - { pacote: git, distro: Debian }
+      - { pacote: figlet, distro: Debian }
+      - { pacote: vim, distro: Debian }
+      - { pacote: git, distro: RedHat }
+      - { pacote: epel-release, distro: RedHat }
+      - { pacote: vim, distro: RedHat }
+
+   - name: criando arquivos
+     file: 
+      path: "{{item.arquivo}}"
+      state: "{{item.tipo}}"
+     with_items:
+       - { arquivo: /tmp/devops, tipo: directory}
+       
+   - name: colocando conteudo no arquivo
+     blockinfile:
+       create: yes
+       path: /tmp/devops/fileexe
+       block: |
+        sou devops
+        na 4linux
+                   
